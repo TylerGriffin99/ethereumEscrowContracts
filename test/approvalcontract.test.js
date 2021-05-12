@@ -14,11 +14,11 @@ const ApprovalContract = artifacts.require('../../contracts/ApprovalContract.sol
       let balance = await web3.eth.getBalance(contract.address)
       assert.equal(balance, 1e+18, "amount did not match");
     });
-    
+
     it('makes the transaction when approved, approver: ' + accounts[2], async function () {
       const contract = await ApprovalContract.deployed();
-      await debug(contract.deposit(accounts[0], { value: 1e+18, from: accounts[1] }));
-      await debug(contract.approve({ from: accounts[2] }));
+      await contract.deposit(accounts[0], { value: 1e+18, from: accounts[1] });
+      await contract.approve({ from: accounts[0] });
       let balance = await web3.eth.getBalance(contract.address)
       assert.equal(balance, 0, "didn't transfer ether");
     });
